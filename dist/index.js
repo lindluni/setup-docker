@@ -6140,6 +6140,7 @@ async function validateCommandExists(cmd) {
 
 async function validateGroup(name) {
     const output = await run('groups', [os.userInfo().username], false)
+    console.log(output)
     return output.includes(name);
 }
 
