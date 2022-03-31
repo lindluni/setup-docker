@@ -74,22 +74,17 @@ async function validateGroup(name) {
             core.info('Docker repository already exists')
         } else {
             core.info('Docker repository does not exist, downloading')
-            await run('sudo', [
-                'echo',
-                '"deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"',
-                ">",
-                "/etc/apt/sources.list.d/docker.list"
-            ], true)
+            await fs.writeFileSync('/etc/apt/sources.list.d/docker.list', 'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable')
             core.info('Successfully downloaded Docker repository')
-
-            core.info('Updating APT repositories')
-            await run('sudo', ['apt-get', 'update'], true)
-            core.info('Successfully updated APT repositories')
-
-            core.info('Installing Docker')
-            await run('sudo', ['apt-get', 'install', '-y', 'docker-ce', 'docker-ce-cli', 'container.io'], true)
-            core.info('Successfully installed Docker')
         }
+
+        core.info('Updating APT repositories')
+        await run('sudo', ['apt-get', 'update'], true)
+        core.info('Successfully updated APT repositories')
+
+        core.info('Installing Docker')
+        await run('sudo', ['apt-get', 'install', '-y', 'docker-ce', 'docker-ce-cli', 'container.io'], true)
+        core.info('Successfully installed Docker')
     }
 
     const belongsToGroup = await validateGroup('docker')
