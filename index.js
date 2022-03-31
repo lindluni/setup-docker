@@ -21,7 +21,8 @@ async function run(cmd, args, stdout) {
 
 async function validateCommandExists(cmd) {
     try {
-        await commandExistsSync(cmd)
+        const result = await commandExistsSync(cmd)
+        console.log(result)
         return true
     } catch (e) {
         core.warning(`Command '${cmd}' not found`)
