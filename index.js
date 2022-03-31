@@ -22,8 +22,7 @@ async function run(cmd, args, stdout) {
 
 async function validateCommandExists(cmd) {
     try {
-        const result = await commandExistsSync(cmd)
-        return result !== "false"
+        return await commandExistsSync(cmd)
     } catch (e) {
         core.warning(`Command '${cmd}' not found`)
         return false
@@ -32,7 +31,6 @@ async function validateCommandExists(cmd) {
 
 async function validateGroup(name) {
     const output = await run('groups', [os.userInfo().username], false)
-    console.log(output)
     return output.includes(name);
 }
 
