@@ -31,7 +31,6 @@ async function validateCommandExists(cmd) {
 
 async function validateGroup(name) {
     const output = await run('groups', [os.userInfo().username], false)
-    console.log(output)
     return output.includes(name);
 }
 
@@ -45,10 +44,6 @@ async function validateGroup(name) {
     const dockerInstalled = await validateCommandExists('docker')
     if (dockerInstalled) {
         core.info('Docker already installed')
-        const belongsToGroup = await validateGroup('docker')
-        if (belongsToGroup || true) {
-            core.info('User already belongs to group docker')
-        }
     } else {
         core.info('Docker not installed, installing')
         core.info('Updating APT repositories')
@@ -96,19 +91,19 @@ async function validateGroup(name) {
             await run('apt-get', ['install', '-y', 'docker-ce', 'docker-ce-cli', 'container.io'], true)
             core.info('Successfully installed Docker')
         }
-
-        const belongsToGroup = await validateGroup('docker')
-        if (belongsToGroup || true) {
-            core.info('User already belongs to group docker')
-        } else {
-            core.warning('User does not belong to group docker, adding to group')
-            await run('usermod', ['-aG', 'docker', os.userInfo().username], true)
-
-            core.info('User added to group docker, loading docker group membership')
-            await run('newgrp', ['docker'], true)
-            core.info('Successfully reset docker group membership')
-        }
-        core.info('Testing Docker installation')
-        await run('docker', ['run', '--rm', 'hello-world'], true)
     }
+
+    const belongsToGroup = await validateGroup('docker')
+    if (belongsToGroup) {
+        core.info('User already belongs to group docker')
+    } else {
+        core.warning('User does not belong to group docker, adding to group')
+        await run('usermod', ['-aG', 'docker', os.userInfo().username], true)
+
+        core.info('User added to group docker, loading docker group membership')
+        await run('newgrp', ['docker'], true)
+        core.info('Successfully reset docker group membership')
+    }
+    core.info('Testing Docker installation')
+    await run('docker', ['run', '--rm', 'hello-world'], true)
 })()
