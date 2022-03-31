@@ -22,7 +22,7 @@ async function run(cmd, args, stdout) {
 
 async function validateCommandExists(cmd) {
     try {
-        return await commandExistsSync(cmd)
+        return commandExistsSync(cmd)
     } catch (e) {
         core.warning(`Command '${cmd}' not found`)
         return false
@@ -74,7 +74,7 @@ async function validateGroup(name) {
             core.info('Docker repository already exists')
         } else {
             core.info('Docker repository does not exist, downloading')
-            await fs.writeFileSync('/etc/apt/sources.list.d/docker.list', 'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable')
+            fs.writeFileSync('/etc/apt/sources.list.d/docker.list', 'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable')
             core.info('Successfully downloaded Docker repository')
         }
 

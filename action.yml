@@ -1,5 +1,13 @@
-name: Setup Docker on Ubuntu
-description: A GitHub Action for setting up Docker on Ubuntu
+name: 'Setup Docker'
+description: 'Install Docker on Actions Runner'
 runs:
-  using: node12
-  main: dist/index.js
+  using: "composite"
+  steps:
+    - run: sudo get-docker.sh
+      shell: bash
+      run: sudo usermod -aG docker $USER
+      shell: bash
+    - run: newgrp docker
+      shell: bash          
+    - run: docker --rm hello-world
+      shell: bash
