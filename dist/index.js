@@ -6125,6 +6125,7 @@ async function run(cmd, args, stdout) {
         }
     } catch (e) {
         core.setFailed(`Failed running command '${cmd} ${args.join(' ')}': ${e.message}`)
+        process.exit(1)
     }
 }
 
