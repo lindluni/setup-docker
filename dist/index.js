@@ -6156,11 +6156,11 @@ async function validateGroup(name) {
     } else {
         core.info('Docker not installed, installing')
         core.info('Updating APT repositories')
-        await run('apt-get', ['update'], true)
+        await run('sudo', ['apt-get', 'update'], true)
         core.info('Successfully updated APT repositories')
 
         core.info('Installing prerequisites')
-        await run('apt-get', ['install', '-y', 'ca-certificates', 'curl', 'gnupg', 'lsb-release'], true)
+        await run('sudo', ['apt-get', 'install', '-y', 'ca-certificates', 'curl', 'gnupg', 'lsb-release'], true)
         core.info('Successfully installed prerequisites')
 
         core.info('Checking if Docker keyring already exists')
@@ -6173,7 +6173,7 @@ async function validateGroup(name) {
             core.info('Successfully downloaded Docker keyring')
 
             core.info('Installing Docker keyring')
-            await run('gpg', ['--dearmor', '-o /usr/share/keyrings/docker-archive-keyring.gpg', 'key.pgp'], true)
+            await run('sudo', ['gpg', '--dearmor', '-o /usr/share/keyrings/docker-archive-keyring.gpg', 'key.pgp'], true)
             core.info('Successfully installed Docker keyring')
         }
 
@@ -6193,11 +6193,11 @@ async function validateGroup(name) {
             core.info('Successfully downloaded Docker repository')
 
             core.info('Updating APT repositories')
-            await run('apt-get', ['update'], true)
+            await run('sudo', ['apt-get', 'update'], true)
             core.info('Successfully updated APT repositories')
 
             core.info('Installing Docker')
-            await run('apt-get', ['install', '-y', 'docker-ce', 'docker-ce-cli', 'container.io'], true)
+            await run('sudo', ['apt-get', 'install', '-y', 'docker-ce', 'docker-ce-cli', 'container.io'], true)
             core.info('Successfully installed Docker')
         }
     }
@@ -6207,7 +6207,7 @@ async function validateGroup(name) {
         core.info('User already belongs to group docker')
     } else {
         core.warning('User does not belong to group docker, adding to group')
-        await run('usermod', ['-aG', 'docker', os.userInfo().username], true)
+        await run('sudo', ['usermod', '-aG', 'docker', os.userInfo().username], true)
 
         core.info('User added to group docker, loading docker group membership')
         await run('newgrp', ['docker'], true)
