@@ -5,7 +5,7 @@ runs:
   steps:
     - run: sudo get-docker.sh
       shell: bash
-      run: sudo usermod -aG docker $USER
+    - run: sudo usermod -aG docker $USER
       shell: bash
     - run: newgrp docker
       shell: bash          
