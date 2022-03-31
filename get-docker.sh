@@ -394,7 +394,7 @@ do_install() {
 				pre_reqs="$pre_reqs gnupg"
 			fi
             mkdir ~/.keyrings/
-			apt_repo="deb [arch=$(dpkg --print-architecture) signed-by=~/.keyrings/docker-archive-keyring.gpg] $DOWNLOAD_URL/linux/$lsb_dist $dist_version $CHANNEL"
+			apt_repo="deb [arch=$(dpkg --print-architecture) signed-by=/home/ubuntu/.keyrings/docker-archive-keyring.gpg] $DOWNLOAD_URL/linux/$lsb_dist $dist_version $CHANNEL"
 			(
 				if ! is_dry_run; then
 					set -x
