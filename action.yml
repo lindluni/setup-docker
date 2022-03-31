@@ -1,0 +1,5 @@
+name: Setup Docker on Ubuntu
+description: A GitHub Action for setting up Docker on Ubuntu
+runs:
+  using: node16
+  main: dist/index.js
