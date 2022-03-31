@@ -6169,11 +6169,11 @@ async function validateGroup(name) {
             core.info('Docker keyring already exists')
         } else {
             core.info('Docker keyring does not exist, downloading')
-            await run('curl', ['-fsSL', '-o key.pgp', 'https://download.docker.com/linux/debian/gpg'], true)
+            await run('curl', ['-fsSL', '-o', 'key.pgp', 'https://download.docker.com/linux/debian/gpg'], true)
             core.info('Successfully downloaded Docker keyring')
 
             core.info('Installing Docker keyring')
-            await run('sudo', ['gpg', '--dearmor', '-o /usr/share/keyrings/docker-archive-keyring.gpg', 'key.pgp'], true)
+            await run('sudo', ['gpg', '--dearmor', '-o', '/usr/share/keyrings/docker-archive-keyring.gpg', 'key.pgp'], true)
             core.info('Successfully installed Docker keyring')
         }
 
