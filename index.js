@@ -75,11 +75,9 @@ async function validateGroup(name) {
         } else {
             core.info('Docker repository does not exist, downloading')
             await run('dev', [
-                '[arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]',
-                'https://download.docker.com/linux/ubuntu',
-                '$(lsb_release -cs) stable"',
+                '"[arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"',
                 '|',
-                'sudo tee /etc/apt/sources.list.d/docker.list >/dev/null'
+                'sudo', 'tee', '/etc/apt/sources.list.d/docker.list', '>/dev/null'
             ], true)
             core.info('Successfully downloaded Docker repository')
 
