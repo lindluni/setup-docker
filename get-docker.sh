@@ -401,7 +401,7 @@ do_install() {
 				$sh_c 'apt-get update -qq >/dev/null'
 				$sh_c "DEBIAN_FRONTEND=noninteractive apt-get install -y -qq $pre_reqs >/dev/null"
 				$sh_c "curl -fsSL \"$DOWNLOAD_URL/linux/$lsb_dist/gpg\" -o key.pgp"
-                $sh_c "gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg -o key.pgp"
+                $sh_c "gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg key.pgp"
                 $sh_c "rm -rf key.pgp"
 				$sh_c "echo \"$apt_repo\" > /etc/apt/sources.list.d/docker.list"
 				$sh_c 'apt-get update -qq >/dev/null'
