@@ -1,13 +1,11 @@
-name: 'Setup Docker'
-description: 'Install Docker on Actions Runner'
+name: 'Setup Docker on Ubuntu'
+description: 'Install Docker on Ubuntu Actions Runner'
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/get-docker.sh
+    - run: sudo apt-get update
       shell: bash
-    - run: sudo usermod -aG docker $USER
+    - run: sudo apt-get install -y docker.io docker-compose
       shell: bash
-    - run: newgrp docker
-      shell: bash          
     - run: docker --rm hello-world
       shell: bash
