@@ -17,7 +17,7 @@ runs:
     - name: Configure Docker Group
       if: ${{ inputs.add-to-group == 'true' }}
       shell: bash
-      run: sudo usermod -aG docker $USER && newgrp docker
+      run: sudo usermod -aG docker $(whoami) && newgrp docker
     - name: Validate Docker Installation
       run: docker run --rm hello-world
       shell: bash
