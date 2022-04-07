@@ -1,11 +1,23 @@
 name: 'Setup Docker on Ubuntu'
 description: 'Install Docker on Ubuntu Actions Runner'
+inputs:
+  add-to-group:
+    description: 'Signifies if the user should be added to the Docker group'
+    required: true
+    default: 'false'
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
-    - run: sudo apt-get update
+    - name: Update APT Repository
+      run: sudo apt-get update
       shell: bash
-    - run: sudo apt-get install -y docker.io docker-compose
+    - name: Install Docker and Compose
+      run: sudo apt-get install -y docker.io docker-compose
       shell: bash
-    - run: docker --rm hello-world
+    - name: Configure Docker Group
+      if: ${{ inputs.add-to-group == 'true' }}
+      shell: bash
+      run: sudo usermod -aG docker $USER && newgrp docker
+    - name: Validate Docker Installation
+      run: docker --rm hello-world
       shell: bash
